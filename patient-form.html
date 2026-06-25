@@ -323,13 +323,24 @@ Description: Homework 2 patient registration form
 			<input type="range"
 					min="1"
 					max="10"
-					value="5"
 					step="1"
-					list="increments"
 					id="health"
-
+					name="health"
+				>
+			$5&nbsp;<br>
+            $<span id="rangedisplay"></span>
 		</td>
 	</tr>
+	
+<script>
+    var slider = document.getElementById("health");
+    var output = document.getElementById("rangedisplay");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        output.innerHTML = this.value;
+    }
+</script>
 	<!-- User ID -->
 	<tr class="form">
 		<td align="right"> User ID
@@ -340,18 +351,6 @@ Description: Homework 2 patient registration form
 					name="userid"
 					pattern="^[A-Za-z][A-Za-z0-9_-]{4,29}$">
 				>
-			$5&nbsp;<br>
-            $<span id="rangedisplay"></span>
-		</td>
-	<script>
-    var slider = document.getElementById("budget");
-    var output = document.getElementById("rangedisplay");
-    output.innerHTML = slider.value;
-
-    slider.oninput = function() {
-        output.innerHTML = this.value;
-    }
-</script>
 	</tr>
 	<!-- Password, masked -->
 	<tr class="form">
