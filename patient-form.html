@@ -58,8 +58,11 @@ Description: Homework 2 patient registration form
         <td>
              <input type="text"
                     maxlength="30" 
-                    id="firstname" 
-                    name="firsttname" 
+                    id="firstname"
+				 	pattern="[A-Z^a-z-' ^~]{2,}"
+                    name="firsttname"
+				 	required
+				    title="Minumum 2 characters; only letters, spaces, and dashes allowed."
             >
             
             <input type="text" 
