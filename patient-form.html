@@ -59,23 +59,30 @@ Description: Homework 2 patient registration form
              <input type="text"
                     maxlength="30" 
                     id="firstname"
-				 	pattern="[A-Z^a-z-' ^~]{2,}"
-                    name="firsttname"
+				 	pattern="[A-Za-z-' ~]{2,}"
+                    name="firstname"
 				 	required
 				    title="Minumum 2 characters; only letters, spaces, and dashes allowed."
             >
             
             <input type="text" 
                     maxlength="1" 
-                    id="middleinit" 
-                    name="middleinit" 
+                    id="middleinit"
+                    pattern="[A-Za-z ]{0,}"
+                    name="middleinit"
+					required
+					title="Maximum 1 characters; only letters allowed."
+					
             >
             <input type="text"
                     maxlength="30" 
                     id="lastname" 
-                    name="lastname" 
+				    pattern="[A-Za-z \-'~]{2,}"
+                    name="lastname"
+					required
+					title="Minumum 2 characters; only letters, spaces, and dashes allowed."
     </tr>
-	<!-- DOB -->
+	<!-- DOB | Date pattern sourced from ChatGPT -->
 	<tr class="form">
 		<td align="right">
 			<label for="dob" >Date of Birth</label>
@@ -84,6 +91,7 @@ Description: Homework 2 patient registration form
 			<input type="date"
 					id="dob"
 					name="dob"
+					pattern="^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$"
 		</td>
 	</tr>
 	<!-- SSN, masked -->
