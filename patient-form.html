@@ -92,6 +92,8 @@ Description: Homework 2 patient registration form
 					id="dob"
 					name="dob"
 					pattern="^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$"
+					title="Only enter numbers; No slashes"
+					required
 		</td>
 	</tr>
 	<!-- SSN, masked -->
@@ -101,8 +103,12 @@ Description: Homework 2 patient registration form
 		</td>
 		<td>
 			<input type="password"
+					maxlength="9"
 					id="ssn"
 					name="ssn"
+					pattern="\d{9}"
+					title="Only enter numbers; No dashes"
+					required
 		</td>
 	</tr>
 	<!-- Address 1 -->
@@ -114,7 +120,9 @@ Description: Homework 2 patient registration form
             <input type="text" 
                     maxlength="30" 
                     id="addr1" 
-                    name="addr1" 
+                    name="addr1"
+					title="Enter street address"
+					required
             >
         <id="addr1_text"></td>
     </tr>
@@ -126,7 +134,8 @@ Description: Homework 2 patient registration form
         <td>
             <input type="text" 
                     id="addr2" 
-                    name="addr2" 
+                    name="addr2"
+				    placeholder="Apt #, etc..."
             >
             <id="addr2_text">
         </td>
@@ -140,7 +149,8 @@ Description: Homework 2 patient registration form
         <td>
             <input type="text" 
                     id="city" 
-                    name="city" 
+                    name="city"
+					required
             >
 			<!-- Dropdown list sourced from https://www.freeformatter.com/usa-state-list-html-select.html -->
             <select>
@@ -198,8 +208,12 @@ Description: Homework 2 patient registration form
                 <option value="WY">Wyoming</option>
             </select>
             <input type="text" 
+				    pattern="[0-9]{5}"
+                    class="textsize5"
+					maxlength="5"
                     id="zip" 
-                    name="zip" 
+                    name="zip"
+					required
             >
             <id="City_text"><id="State_text"> 
         </td>
@@ -210,11 +224,14 @@ Description: Homework 2 patient registration form
             <label for="phone">Phone #</label>
         </td>
         <td>
-            <input type="text" 
+            <input type="text"
+					size="13"
+					maxlength="13"
                     id="phone" 
-                    name="phone" 
+                    name="phone"
+					placeholder="(713)743-2255"
             >
-            <id="phone_text">  
+            <span id="phone_text">  
         </td>
 	</tr>
 	<!-- Email -->
@@ -224,8 +241,13 @@ Description: Homework 2 patient registration form
 		</td>
 		<td>
 			<input type="email"
+					size="40"
+					maxlength="40"
 					id="email"
 					name="email"
+					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,20}$"
+					required
+					placeholder="hailey@health.com"
 		</td>
 	</tr>
 	<!-- Symptom textarea -->
@@ -237,7 +259,8 @@ Description: Homework 2 patient registration form
 			<textarea 
 				id="symptoms" 
 				name="symptoms" 
-				rows="3" 
+				rows="3"
+				placeholder="(Tell us more...)"
 				cols="50">
 			</textarea>
 		</td>
@@ -323,7 +346,14 @@ Description: Homework 2 patient registration form
 		<td>
 		  	<input type="password"
 					id="password"
-					name="password">
+					size="15"
+					maxlength="20"
+					name="password"
+					placeholder="(Req'd)"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+					title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+				>
+			<span id="password_text">0
 		</td>
 	</tr>
 	<!-- Confirm password, masked -->
