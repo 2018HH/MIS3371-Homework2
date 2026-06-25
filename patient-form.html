@@ -320,13 +320,14 @@ Description: Homework 2 patient registration form
 		<td align="right"> What would you rate your health (scale 1-10), with 1 being the worst and 10 being the best?
 		</td>
 		<td>
-			1
 			<input type="range"
 					min="1"
 					max="10"
 					value="5"
-					id="health">
-			10
+					step="1"
+					list="increments"
+					id="health"
+				>
 		</td>
 	</tr>
 	<!-- User ID -->
@@ -336,7 +337,9 @@ Description: Homework 2 patient registration form
 		<td>
 		  	<input type="text"
 					id="userid"
-					name="userid">
+					name="userid"
+					pattern="^[A-Za-z][A-Za-z0-9_-]{4,29}$">
+				>
 		</td>
 	</tr>
 	<!-- Password, masked -->
