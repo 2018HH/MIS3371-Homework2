@@ -35,11 +35,14 @@ let reviewHTML = '
     <table border="1" style="width:100%;
         <tr>
             <td><strong>Name:</strong></td>
-            <td>${document.getElementById("firstname").value} ${document.getElementById("middleinitial").value}. ${document.getElementById("lastname").value}</td>
+            <td>${document.getElementById("firstname").value} ${document.getElementById("middleinit").value}. ${document.getElementById("lastname").value}</td>
             <td><span stlye="color: green;"Pass</span></td>
         </tr>
-
-
+        <tr>
+            <td><strong>Password Check:</strong></td>
+            <td>********</td>
+            <td><span style="color: red;">${passwordError ? passwordError : 'Pass'}</span></td>
+    </tr>
 
 reviewArea.innerHTML = reviewHTML;
 });
