@@ -1,4 +1,3 @@
-
 // Health slider
 document.addEventListener("DOMContentLoaded", function() {
     const slider = document.getElementById("health");
@@ -23,6 +22,9 @@ const minDate = min.toISOString().split("T")[0];
 dob.max = maxDate;
 dob.min = minDate;
 
+//Zip Code format
+zip.substring(0,5)
+
 //Review Button
 const form = document.querySelector("form");
 const reviewButton = document.getElementById("reviewbutton");
@@ -33,7 +35,10 @@ reviewButton.addEventListener("click", function(event) {
 
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmpassword").value;
-    const userId = document.getElementById("userid").value;
+    const userId = document.getElementById("userid")
+        .addEventListener("input",function(){
+            this.value=this.value.toLowercase();
+        });
     let passwordError = "";
 
     if(password !== confirmPassword) {
