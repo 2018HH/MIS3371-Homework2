@@ -42,7 +42,13 @@ let reviewHTML = '
             <td><strong>Password Check:</strong></td>
             <td>********</td>
             <td><span style="color: red;">${passwordError ? passwordError : 'Pass'}</span></td>
+        </tr>
+        <tr>
+            <td><strong>Zip Code Check:</strong></td>
+            <td>${document.getElementById("zip").value}</td>
+            <td>${document.getElementById("zip").value.length === 5 ? 'Pass' : 'Truncated/Fixed'}</td>
     </tr>
-
+    </table>
+';
 reviewArea.innerHTML = reviewHTML;
 });
