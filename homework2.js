@@ -34,11 +34,11 @@ reviewButton.addEventListener("click", function(event) {
 //Fetch current values for user to review
 let reviewHTML = `
     <h3>PLEASE REVIEW INPUTTED INFORMATION BEFORE SUBMITTING</h3>
-    <table border="1" style="width:100%;
+    <table border="1" style="width:100%;">
         <tr>
             <td><strong>Name:</strong></td>
             <td>${document.getElementById("firstname").value} ${document.getElementById("middleinit").value}. ${document.getElementById("lastname").value}</td>
-            <td><span stlye="color: green;"Pass</span></td>
+            <td><span style="color: green;"Pass</span></td>
         </tr>
         <tr>
             <td><strong>Password Check:</strong></td>
