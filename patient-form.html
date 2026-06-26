@@ -377,7 +377,7 @@ Description: Homework 2 patient registration form
 		</td>
 	</tr>
 	   
-	<!-- Password, masked -->
+	<!-- Password, masked ***REGEX BORROWED-->
 	<tr class="form">
 		<td align="right"><label for="password">Password</label>
 		</td>
@@ -388,7 +388,7 @@ Description: Homework 2 patient registration form
 					maxlength="20"
 					name="password"
 					placeholder="(Req'd)"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=\-{}[\]:;<>,.?/~`]).{8,30}$"
 					title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
 				>
 			<span id="password_text"></span>
