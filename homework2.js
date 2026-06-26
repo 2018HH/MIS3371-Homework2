@@ -1,8 +1,10 @@
 
 // Health slider
-document.addEventListener("DOMContentLoaded, function() {
+document.addEventListener("DOMContentLoaded", function() {
     const slider = document.getElementById("health");
     const rangeDisplay = document.getElementById("rangedisplay");
+
+    rangeDisplay.textContent = slider.value;
 
     slider.addEventListener("input", function() {
         rangeDisplay.textContent = slider.value;
