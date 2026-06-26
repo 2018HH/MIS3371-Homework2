@@ -1,79 +1,234 @@
-// Health slider
-document.addEventListener("DOMContentLoaded", function() {
+
+//Health Slider
+function updateSlider() {
     const slider = document.getElementById("health");
-    const rangeDisplay = document.getElementById("rangedisplay");
+    const display = document.getElementById("rangedisplay");
+    display.textContent = slider.value;
+}
 
-    rangeDisplay.textContent = slider.value;
 
-    slider.addEventListener("input", function() {
-        rangeDisplay.textContent = slider.value;
-    });
-});
+//DOB Validation
+function validateDOB() {
+    const dob = document.getElementById("dob");
+    const error = document.getElementById("dob_error");
 
-//DOB validation
-const dob = document.getElementById("dob");
-const today = new Date();
-const maxDate = today.toISOString().split("T")[0];
+    const today = new Date();
+    const dobDate = new Date(dob.value);
 
-let min = new Date();
-min.setFullYear(today.getFullYear()-120);
-const minDate = min.toISOString().split("T")[0];
+    const minDate = new Date();
+    minDate.setFullYear(today.getFullYear() - 120);
 
-dob.max = maxDate;
-dob.min = minDate;
+    if (!dob.value) {
+        error.textContent = "DOB is required";
+        return false;
+    }
 
-//Zip Code format
-zip.substring(0,5)
+    if (dobDate > today) {
+        error.textContent = "ERROR: DOB cannot be in the future";
+        return false;
+    }
+
+    if (dobDate < minDate) {
+        error.textContent = "ERROR: DOB cannot be more than 120 years ago";
+        return false;
+    }
+
+    error.textContent = "";
+    return true;
+}
+
+
+//Phone Validation
+function validatePhone() {
+    const phone = document.getElementById("phone");
+    const error = document.getElementById("phone_error");
+
+    const pattern = /^\d{3}-\d{3}-\d{4}$/;
+
+    if (!pattern.test(phone.value)) {
+        error.textContent = "ERROR: Invalid phone format";
+        return false;
+    }
+
+    error.textContent = "";
+    return true;
+}
+
+
+//Email Validation
+function validateEmail() {
+    const email = document.getElementById("email");
+    const error = document.getElementById("email_error");
+
+    const pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+
+    if (!pattern.test(email.value)) {
+        error.textContent = "ERROR: Invalid email format";
+        return false;
+    }
+
+    error.textContent = "";
+    return true;
+}
+
+
+//Password Validation
+function checkPasswords() {
+    const password = document.getElementById("password").value;
+    const confirm = document.getElementById("confirmpassword").value;
+    const userid = document.getElementById("userid").value;
+    const error = document.getElementById("password_error");
+
+    const special = /[!@#$%^&*()_\-+=]/;
+
+    if (password !== confirm) {
+        error.textContent = "ERROR: Passwords do not match";
+        return false;
+    }
+
+    if (password.includes(userid) && userid !== "") {
+        error.textContent = "ERROR: Password cannot contain User ID";
+        return false;
+    }
+
+    if (!special.test(password)) {
+        error.textContent = "ERROR: Must contain special character";
+        return false;
+    }
+
+    error.textContent = "";
+    return true;
+}
+
 
 //Review Button
-const form = document.querySelector("form");
-const reviewButton = document.getElementById("reviewbutton");
-const reviewArea = document.getElementById("review");
-
-reviewButton.addEventListener("click", function(event) {
-    event.preventDefault();
+document.getElementById("reviewBtn").addEventListener("click", function () {
 
     const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmpassword").value;
-    const userId = document.getElementById("userid")
-        .addEventListener("input",function(){
-            this.value=this.value.toLowercase();
-        });
-    let passwordError = "";
+    const confirm = document.getElementById("confirmpassword").value;
+    const userid = document.getElementById("userid").value;
 
-    if(password !== confirmPassword) {
-        passwordError = "ERROR: Passwords do not match!";
-    }
-    else if(password.includes(userId) && userId !== "") {
-        passwordError = "ERROR: Password cannot contain your User ID!"
-    }
+    let passwordStatus = checkPasswords() ? "PASS" : "ERROR";
 
-//Remove quotations from symptom textarea
-document.getElementById("symptoms")
-    .addEventListener("input", function(){
-        this.value=this.value.replace(/"/g,"");
-    });
+    // checkbox values
+    let prefs = [];
+    if (document.getElementById("pref_email").checked) prefs.push("Email");
+    if (document.getElementById("pref_sms").checked) prefs.push("SMS");
+    if (document.getElementById("pref_phone").checked) prefs.push("Phone");
+    if (document.getElementById("pref_voicemail").checked) prefs.push("Voicemail");
 
-//Fetch current values for user to review
-let reviewHTML = `
-    <h3>PLEASE REVIEW INPUTTED INFORMATION BEFORE SUBMITTING</h3>
-    <table border="1" style="width:100%;">
+    // radio values
+    const gender =
+        document.querySelector('input[name="gender"]:checked')?.value || "Not selected";
+
+    // DOB validation
+    const dobValid = validateDOB() ? "PASS" : "ERROR";
+
+    // phone/email validation
+    const phoneValid = validatePhone() ? "PASS" : "ERROR";
+    const emailValid = validateEmail() ? "PASS" : "ERROR";
+
+    // ZIP truncation display
+    let zip = document.getElementById("zip").value;
+    let zipDisplay = zip.length > 5 ? zip.substring(0,5) : zip;
+
+    const reviewHTML = `
+        <h2>PLEASE REVIEW THIS INFORMATION</h2>
+
+        <table border="1" style="width:100%; border-collapse: collapse;">
+
         <tr>
-            <td><strong>Name:</strong></td>
-            <td>${document.getElementById("firstname").value} ${document.getElementById("middleinit").value}. ${document.getElementById("lastname").value}</td>
-            <td><span style="color: green;"Pass</span></td>
+            <td><b>Name</b></td>
+            <td>${document.getElementById("firstname").value}
+                ${document.getElementById("middleinit").value}
+                ${document.getElementById("lastname").value}
+            </td>
+            <td>PASS</td>
         </tr>
+
         <tr>
-            <td><strong>Password Check:</strong></td>
+            <td><b>DOB</b></td>
+            <td>${document.getElementById("dob").value}</td>
+            <td>${dobValid}</td>
+        </tr>
+
+        <tr>
+            <td><b>Email</b></td>
+            <td>${document.getElementById("email").value}</td>
+            <td>${emailValid}</td>
+        </tr>
+
+        <tr>
+            <td><b>Phone</b></td>
+            <td>${document.getElementById("phone").value}</td>
+            <td>${phoneValid}</td>
+        </tr>
+
+        <tr>
+            <td><b>Address</b></td>
+            <td>
+                ${document.getElementById("addr1").value}<br>
+                ${document.getElementById("addr2").value}<br>
+                ${document.getElementById("city").value},
+                ${document.getElementById("state").value}
+                ${zipDisplay}
+            </td>
+            <td>PASS</td>
+        </tr>
+
+        <tr>
+            <td><b>Gender</b></td>
+            <td>${gender}</td>
+            <td>PASS</td>
+        </tr>
+
+        <tr>
+            <td><b>Contact Preferences</b></td>
+            <td>${prefs.join(", ")}</td>
+            <td>PASS</td>
+        </tr>
+
+        <tr>
+            <td><b>Health Rating</b></td>
+            <td>${document.getElementById("health").value}</td>
+            <td>PASS</td>
+        </tr>
+
+        <tr>
+            <td><b>User ID</b></td>
+            <td>${userid}</td>
+            <td>PASS</td>
+        </tr>
+
+        <tr>
+            <td><b>Password</b></td>
             <td>********</td>
-            <td><span style="color: red;">${passwordError ? passwordError : 'Pass'}</span></td>
+            <td>${passwordStatus}</td>
         </tr>
+
         <tr>
-            <td><strong>Zip Code Check:</strong></td>
-            <td>${document.getElementById("zip").value}</td>
-            <td>${document.getElementById("zip").value.length === 5 ? 'Pass' : 'Truncated/Fixed'}</td>
-    </tr>
-    </table>
-`;
-reviewArea.innerHTML = reviewHTML;
+            <td><b>Symptoms</b></td>
+            <td>${document.getElementById("symptoms").value}</td>
+            <td>PASS</td>
+        </tr>
+
+        </table>
+    `;
+
+    document.getElementById("review").innerHTML = reviewHTML;
+});
+
+
+// Reset Cleanup
+document.querySelector("form").addEventListener("reset", function () {
+
+    document.getElementById("review").innerHTML = "";
+
+    document.getElementById("rangedisplay").textContent = "5";
+
+    document.getElementById("password_error").textContent = "";
+    document.getElementById("phone_error").textContent = "";
+    document.getElementById("email_error").textContent = "";
+    document.getElementById("dob_error").textContent = "";
+
 });
