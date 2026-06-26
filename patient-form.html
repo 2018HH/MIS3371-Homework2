@@ -34,12 +34,13 @@ Description: Homework 2 patient registration form
 						<h1>Hailey Medical Center</h1>
 					</td>
                     <td valign="bottom" align="right">
-						Today's date: <span id="today"</span>
+						Today's date: <span id="today"></span>
 					</td>
                 </tr>
             </table>
         </div>
         <hr>
+		
         <div id="body">
 <!-- Load external Thank You page file -->
 <form action="thankyou.html">
@@ -62,16 +63,16 @@ Description: Homework 2 patient registration form
 				 	pattern="[A-Za-z-' ~]{2,}"
                     name="firstname"
 				 	required
-				    title="Minumum 2 characters; only letters, spaces, and dashes allowed."
+				    title="Minumum 2 characters; only letters, apostrophes, and dashes allowed."
             >
             
             <input type="text" 
                     maxlength="1" 
                     id="middleinit"
-                    pattern="[A-Za-z ]{0,}"
+                    pattern="[A-Za-z ]{0,1}"
                     name="middleinit"
 					required
-					title="Maximum 1 characters; only letters allowed."
+					title="Maximum 1 characters; only letters allowed. Can be left blank."
 					
             >
             <input type="text"
@@ -80,8 +81,11 @@ Description: Homework 2 patient registration form
 				    pattern="[A-Za-z \-'~]{2,}"
                     name="lastname"
 					required
-					title="Minumum 2 characters; only letters, spaces, and dashes allowed."
+					title="Minumum 2 characters; only letters, apostrophes, and dashes allowed."
+			>
+		</td>
     </tr>
+	
 	<!-- DOB | Date pattern sourced from ChatGPT -->
 	<tr class="form">
 		<td align="right">
@@ -94,8 +98,10 @@ Description: Homework 2 patient registration form
 					pattern="^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$"
 					title="Only enter numbers; No slashes"
 					required
+			>
 		</td>
 	</tr>
+	
 	<!-- SSN, masked -->
 	<tr class="form">
 		<td align="right">
@@ -107,10 +113,12 @@ Description: Homework 2 patient registration form
 					id="ssn"
 					name="ssn"
 					pattern="\d{9}"
-					title="Only enter numbers; No dashes"
+					title="Only enter 9 numbers; No dashes"
 					required
+			>
 		</td>
 	</tr>
+	   
 	<!-- Address 1 -->
     <tr  class="form">
         <td align="right">
@@ -127,6 +135,7 @@ Description: Homework 2 patient registration form
         <span id="addr1_text"></span>
 		</td>
     </tr>
+	   
 	<!-- Address 2 -->
     <tr  class="form">
         <td align="right">
@@ -140,6 +149,8 @@ Description: Homework 2 patient registration form
             >
             <span id="addr2_text"></span>
         </td>
+	</tr>
+	   
 	<!-- City, ST, Zip -->
     <tr class="form">
         <td align="right">
@@ -154,7 +165,11 @@ Description: Homework 2 patient registration form
 					required
             >
 			<!-- Dropdown list sourced from https://www.freeformatter.com/usa-state-list-html-select.html -->
-            <select>
+            <select 
+				id="state"
+				name="state"
+				required
+				>
                 <option value=""></option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -214,11 +229,14 @@ Description: Homework 2 patient registration form
 					maxlength="5"
                     id="zip" 
                     name="zip"
+					title="Enter 5-digit zipcode"
 					required
             >
-            <id="City_text"><id="State_text"> 
+            <span id="city_text"></span>
+			<span id="state_text"></span>
         </td>
     </tr>
+	   
 	<!-- Phone Number -->
     <tr class="form">
         <td align="right">
@@ -227,14 +245,17 @@ Description: Homework 2 patient registration form
         <td>
             <input type="text"
 					size="13"
-					maxlength="13"
+					maxlength="12"
                     id="phone" 
                     name="phone"
-					placeholder="(713)743-2255"
+					pattern="\d{3}-\d{3}-\d{4}"
+					placeholder="000-000-0000"
+					title="Format: 000-000-0000"
             >
-            <span id="phone_text">  
+            <span id="phone_text"></span>  
         </td>
 	</tr>
+	   
 	<!-- Email -->
    	<tr class="form">
 		<td align="right">
@@ -249,8 +270,10 @@ Description: Homework 2 patient registration form
 					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,20}$"
 					required
 					placeholder="hailey@health.com"
+			>
 		</td>
 	</tr>
+	   
 	<!-- Symptom textarea -->
 	<tr class="form">
 		<td align="right">
@@ -266,6 +289,7 @@ Description: Homework 2 patient registration form
 			</textarea>
 		</td>
 	</tr>
+	   
 	<!-- Communication Preferences, checkbox; template code was sourced from https://www.w3schools.com/tags/att_input_type_checkbox.asp -->
 	<tr class="form">
 		<td align="right"> 
@@ -279,6 +303,7 @@ Description: Homework 2 patient registration form
   			<input type="checkbox" id="direct"> <label for="direct"> Direct Contact - No Voicemail </label><br>
 		</td>
 	</tr>
+	   
 	<!-- https://www.w3schools.com/tags/att_input_type_checkbox.asp was used as a template for all radio button and sliding scale input html-->
 	<!-- Gender, radio button -->
 	<tr class="form">
@@ -286,36 +311,39 @@ Description: Homework 2 patient registration form
 			<label>Gender</label>
 		</td>
 		<td>
-		  	<input type="radio" name="gender" id="male">
+		  	<input type="radio" name="gender" id="male" value="Male">
 			<label for="male">Male</label>
-		  	<input type="radio" name="gender" id="female">
+		  	<input type="radio" name="gender" id="female" value="Female">
 			<label for="female">Female</label>
-		  	<input type="radio" name="gender" id="other">
+		  	<input type="radio" name="gender" id="other" value="Other">
 			<label for="other">Other/Prefer not to say</label>
 		</td>
 	</tr>
+	   
 	<!-- Vaccination, radio button -->
 	<tr class="form">
 		<td align="right"> Are you vaccinated?
 		</td>
 		<td>
-		  	<input type="radio" name="vaccinated" id="yes">
+		  	<input type="radio" name="vaccinated" id="yes" value="Yes">
 			<label for="yes">Yes</label>
-		  	<input type="radio" name="vaccinated" id="no">
+		  	<input type="radio" name="vaccinated" id="no" value="No">
 			<label for="no">No</label>
 		</td>
 	</tr>
+	   
 	<!-- Insurance, radio button -->
 	<tr class="form">
 		<td align="right"> Do you have insurance?
 		</td>
 		<td>
-		  	<input type="radio" name="insurance" id="yes">
+		  	<input type="radio" name="insurance" id="yes" value="Yes">
 			<label for="yes">Yes</label>
-		  	<input type="radio" name="insurance" id="no">
+		  	<input type="radio" name="insurance" id="no" value="No">
 			<label for="no">No</label>
 		</td>
 	</tr>
+	   
 	<!-- Health rating, sliding scale -->
 	<tr class="form">
 		<td align="right"> What would you rate your health (scale 1-10), with 1 being the worst and 10 being the best?
@@ -327,24 +355,31 @@ Description: Homework 2 patient registration form
 					step="1"
 					id="health"
 					name="health"
+					value="1"
 				>
             <span id="rangedisplay">1</span>
 		</td>
 	</tr>
+	   
 	<!-- User ID -->
 	<tr class="form">
-		<td align="right"> User ID
+		<td align="right"><label for="userid">User ID</label>
 		</td>
 		<td>
 		  	<input type="text"
+					minlength="5"
+					maxlength="30"
 					id="userid"
 					name="userid"
 					pattern="^[A-Za-z][A-Za-z0-9_-]{4,29}$"
+					title="5-30 characters, must start with a letter, no spaces allowed, letters/numbers/hyphen/underscore only." 
 				>
+		</td>
 	</tr>
+	   
 	<!-- Password, masked -->
 	<tr class="form">
-		<td align="right"> Password
+		<td align="right"><label for="password">Password</label>
 		</td>
 		<td>
 		  	<input type="password"
@@ -356,37 +391,39 @@ Description: Homework 2 patient registration form
                     pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
 					title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
 				>
-			<span id="password_text">
+			<span id="password_text"></span>
 		</td>
 	</tr>
+	   
 	<!-- Confirm password, masked -->
 	<tr class="form">
-		<td align="right"> Re-enter Password
+		<td align="right"><label for="confirmpassword"> Re-enter Password</label>
 		</td>
 		<td>
 		  	<input type="password"
 					id="confirmpassword"
-					name="confirmpassword">
+					name="confirmpassword"
+				>
 		</td>
 	</tr>
-<!-- Submit, Clear & Start Over buttons -->
-</form>
-	</tr class="form">
+	   
+<!-- Submit, Review, Clear & Start Over buttons -->
     <tr>        
-        <td colspan="3">
-            <center>
+        <td colspan="3" align="center">
+            <br>
             <input type="submit" value="Submit">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button type="button" id="review-button">Review Data</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="reset" value="Clear and Start Over">
-            </center>
+            <br><br>
         </td>
-    <tr>
     </tr>
-
-			</table>
+</table>
+</form>
+	<div id="review"></div>
+		</div>
 <!-- Footer -->
-</form> 
-        </div>
         <div id="footer">
 			<p>Hailey Medical Center</p>
 			<p>PO Box 911</p>
@@ -403,6 +440,9 @@ Description: Homework 2 patient registration form
 			</a>
 			
         </div>
+		
+<!-- Load extrernal JavaScript file -->
+<script src="homework2.js"></script>
 <!-- JS Local Date -->
  <script>
     document.getElementById("today").innerHTML = new Date().toLocaleDateString();
