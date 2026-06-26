@@ -60,7 +60,7 @@ Description: Homework 2 patient registration form
              <input type="text"
                     maxlength="30" 
                     id="firstname"
-				 	pattern="[A-Za-z-' ~]{2,}"
+				 	pattern="[A-Za-z\-' ]{2,30}"
                     name="firstname"
 				 	required
 				    title="Minumum 2 characters; only letters, apostrophes, and dashes allowed."
@@ -71,14 +71,13 @@ Description: Homework 2 patient registration form
                     id="middleinit"
                     pattern="[A-Za-z ]{0,1}"
                     name="middleinit"
-					required
 					title="Maximum 1 characters; only letters allowed. Can be left blank."
 					
             >
             <input type="text"
                     maxlength="30" 
                     id="lastname" 
-				    pattern="[A-Za-z \-'~]{2,}"
+				    pattern="[A-Za-z2-5\-']{2,30}"
                     name="lastname"
 					required
 					title="Minumum 2 characters; only letters, apostrophes, and dashes allowed."
@@ -125,7 +124,8 @@ Description: Homework 2 patient registration form
             <label for="addr1" >Address Line 1</label>
         </td>
         <td>
-            <input type="text" 
+            <input type="text"
+					minlength="2"
                     maxlength="30" 
                     id="addr1" 
                     name="addr1"
