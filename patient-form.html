@@ -63,14 +63,19 @@ Description: Homework 2 patient registration form
 				 	pattern="[A-Za-z\-' ]{2,30}"
                     name="firstname"
 				 	required
+				    oninvalid="this.setCustomValidity('First Name not valid.')"
+                    oninput="this.setCustomValidity('')"
 				    title="Minumum 2 characters; only letters, apostrophes, and dashes allowed."
             >
             
             <input type="text" 
+					class="textsize1"
                     maxlength="1" 
                     id="middleinit"
                     pattern="[A-Za-z ]{0,1}"
                     name="middleinit"
+				    oninvalid="this.setCustomValidity('Letters only please.')"
+                    oninput="this.setCustomValidity('')"
 					title="Maximum 1 characters; only letters allowed. Can be left blank."
 					
             >
@@ -80,9 +85,12 @@ Description: Homework 2 patient registration form
 				    pattern="[A-Za-z2-5\-']{2,30}"
                     name="lastname"
 					required
+                    oninvalid="this.setCustomValidity('Last Name is Required')"
+                    oninput="this.setCustomValidity('')"
 					title="Minumum 2 characters; only letters, apostrophes, and dashes allowed."
 			>
 		</td>
+		<td><span id="name_text">error message</span></td>
     </tr>
 	
 	<!-- DOB | Date pattern sourced from ChatGPT -->
@@ -97,8 +105,10 @@ Description: Homework 2 patient registration form
 					pattern="^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$"
 					title="Only enter numbers; No slashes"
 					required
+					onblur="validateDOB()"
 			>
 		</td>
+		<td><span id="dob_text">error message</span></td>
 	</tr>
 	
 	<!-- SSN, masked -->
@@ -131,6 +141,8 @@ Description: Homework 2 patient registration form
                     name="addr1"
 					title="Enter street address"
 					required
+					oninvalid="this.setCustomValidity('At least 1 address line is required')"
+                    oninput="this.setCustomValidity('')"
             >
         <span id="addr1_text"></span>
 		</td>
@@ -224,7 +236,7 @@ Description: Homework 2 patient registration form
                 <option value="WY">Wyoming</option>
             </select>
             <input type="text" 
-				    pattern="[0-9]{5}"
+				    pattern="\d{5}(-\d{4})?"
                     class="textsize5"
 					maxlength="10"
                     id="zip" 
@@ -251,8 +263,9 @@ Description: Homework 2 patient registration form
 					pattern="\d{3}-\d{3}-\d{4}"
 					placeholder="000-000-0000"
 					title="Format: 000-000-0000"
+					onblur="validatePhone()"
             >
-            <span id="phone_text"></span>  
+            <td><span id="phone_text">error message</span></td> 
         </td>
 	</tr>
 	   
@@ -270,8 +283,10 @@ Description: Homework 2 patient registration form
 					pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,20}$"
 					required
 					placeholder="hailey@health.com"
+					onblur="validateEmail()"
 			>
 		</td>
+		<td><span id="email_text">error message</span></td>
 	</tr>
 	   
 	<!-- Symptom textarea -->
@@ -284,8 +299,10 @@ Description: Homework 2 patient registration form
 				id="symptoms" 
 				name="symptoms" 
 				rows="3"
-				placeholder="(Tell us more...)"
-				cols="50">
+				placeholder="Tell us more..."
+				cols="50"
+				oninput="this.value=this.value.replace(/\"g,'')"
+				>
 			</textarea>
 		</td>
 	</tr>
@@ -355,9 +372,10 @@ Description: Homework 2 patient registration form
 					step="1"
 					id="health"
 					name="health"
-					value="1"
+					value="5"
+					oninput="updateSlider()"
 				>
-            <span id="rangedisplay">1</span>
+            <span id="rangedisplay">5</span>
 		</td>
 	</tr>
 	   
@@ -372,7 +390,8 @@ Description: Homework 2 patient registration form
 					id="userid"
 					name="userid"
 					pattern="^[A-Za-z][A-Za-z0-9_-]{4,29}$"
-					title="5-30 characters, must start with a letter, no spaces allowed, letters/numbers/hyphen/underscore only." 
+					title="5-30 characters, must start with a letter, no spaces allowed, letters/numbers/hyphen/underscore only."
+					oninput="this.value=this.value.toLowerCase()"
 				>
 		</td>
 	</tr>
@@ -390,6 +409,7 @@ Description: Homework 2 patient registration form
 					placeholder="(Req'd)"
                     pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+=\-{}[\]:;<>,.?/~`]).{8,30}$"
 					title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+					oninput="checkPasswords()"
 				>
 			<span id="password_text"></span>
 		</td>
@@ -403,8 +423,11 @@ Description: Homework 2 patient registration form
 		  	<input type="password"
 					id="confirmpassword"
 					name="confirmpassword"
+					required
+					oninput="checkPasswords()"
 				>
 		</td>
+		<span id="password_error"></span>
 	</tr>
 	   
 <!-- Submit, Review, Clear & Start Over buttons -->
@@ -421,6 +444,8 @@ Description: Homework 2 patient registration form
     </tr>
 </table>
 </form>
+
+<!-- Review Button -->
 	<div id="review"></div>
 		</div>
 <!-- Footer -->
