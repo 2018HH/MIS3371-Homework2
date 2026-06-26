@@ -1,4 +1,6 @@
+document.addEventListener("DOMContentLoaded", function () {
 
+    document.getElementById("reviewBtn").addEventListener("click", function () {
 //Health Slider
 function updateSlider() {
     const slider = document.getElementById("health");
@@ -230,5 +232,7 @@ document.querySelector("form").addEventListener("reset", function () {
     document.getElementById("phone_error").textContent = "";
     document.getElementById("email_error").textContent = "";
     document.getElementById("dob_error").textContent = "";
+    
+    });
 
 });
