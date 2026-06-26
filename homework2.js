@@ -8,3 +8,38 @@ document.addEventListener("DOMContentLoaded, function() {
         rangeDisplay.textContent = slider.value;
     });
 });
+
+//Review Button
+const form = document.querySelector("form");
+const reviewButton = document.getElementById("reviewbutton");
+const reviewArea = document.getElementById("review");
+
+reviewButton.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmpassword").value;
+    const userId = document.getElementById("userid").value;
+    let passwordError = "";
+
+    if(password !== confirmPassword) {
+        passwordError = "ERROR: Passwords do not match!";
+    }
+    else if(password.includes(userId) && userId !== "") {
+        passwordError = "ERROR: Password cannot contain your User ID!"
+    }
+
+//Fetch current values for user to review
+let reviewHTML = '
+    <h3>PLEASE REVIEW INPUTTED INFORMATION BEFORE SUBMITTING</h3>
+    <table border="1" style="width:100%;
+        <tr>
+            <td><strong>Name:</strong></td>
+            <td>${document.getElementById("firstname").value} ${document.getElementById("middleinitial").value}. ${document.getElementById("lastname").value}</td>
+            <td><span stlye="color: green;"Pass</span></td>
+        </tr>
+
+
+
+reviewArea.innerHTML = reviewHTML;
+});
