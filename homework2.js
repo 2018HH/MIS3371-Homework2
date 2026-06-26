@@ -11,6 +11,18 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+//DOB validation
+const dob = document.getElementById("dob");
+const today = new Date();
+const maxDate = today.toISOString().split("T")[0];
+
+let min = new Date();
+min.setFullYear(today.getFullYear()-120);
+const minDate = min.toISOString().split("T")[0];
+
+dob.max = maxDate;
+dob.min = minDate;
+
 //Review Button
 const form = document.querySelector("form");
 const reviewButton = document.getElementById("reviewbutton");
@@ -30,6 +42,12 @@ reviewButton.addEventListener("click", function(event) {
     else if(password.includes(userId) && userId !== "") {
         passwordError = "ERROR: Password cannot contain your User ID!"
     }
+
+//Remove quotations from symptom textarea
+document.getElementById("symptoms")
+    .addEventListener("input", function(){
+        this.value=this.value.replace(/"/g,"");
+    });
 
 //Fetch current values for user to review
 let reviewHTML = `
