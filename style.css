@@ -56,10 +56,9 @@ th.form {
     width: 250px;
     height:auto;
 }
-/*input:required {
-border: 2px solid #C8102E;
-} */
-/* General form container */
+#state {
+    width: 70px;
+}
 .form {
         background-color: white;
 }
