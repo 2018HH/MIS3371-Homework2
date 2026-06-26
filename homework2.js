@@ -32,7 +32,7 @@ reviewButton.addEventListener("click", function(event) {
     }
 
 //Fetch current values for user to review
-let reviewHTML = '
+let reviewHTML = `
     <h3>PLEASE REVIEW INPUTTED INFORMATION BEFORE SUBMITTING</h3>
     <table border="1" style="width:100%;
         <tr>
@@ -51,6 +51,6 @@ let reviewHTML = '
             <td>${document.getElementById("zip").value.length === 5 ? 'Pass' : 'Truncated/Fixed'}</td>
     </tr>
     </table>
-';
+`;
 reviewArea.innerHTML = reviewHTML;
 });
