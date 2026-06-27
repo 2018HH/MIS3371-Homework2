@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-    // =========================
-    // SLIDER
-    // =========================
+    // Health Slider
     const slider = document.getElementById("health");
     const display = document.getElementById("rangedisplay");
 
@@ -10,9 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         display.textContent = this.value;
     });
 
-    // =========================
-    // VALIDATION FUNCTIONS (MUST BE GLOBAL INSIDE DOM LOAD)
-    // =========================
+    // Validation functions
 
     window.validateDOB = function () {
         const dob = document.getElementById("dob").value;
