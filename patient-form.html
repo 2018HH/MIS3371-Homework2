@@ -301,7 +301,7 @@ Description: Homework 2 patient registration form
 				rows="3"
 				placeholder="Tell us more..."
 				cols="50"
-				oninput="this.value=this.value.replace(/\"g,'')"
+				oninput="this.value=this.value.replace(/"/g,'')"
 				>
 			</textarea>
 		</td>
@@ -373,7 +373,6 @@ Description: Homework 2 patient registration form
 					id="health"
 					name="health"
 					value="5"
-					oninput="updateSlider()"
 				>
             <span id="rangedisplay">5</span>
 		</td>
@@ -411,7 +410,7 @@ Description: Homework 2 patient registration form
 					title="Password must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
 					oninput="checkPasswords()"
 				>
-			<span id="password_text"></span>
+			<td><span id="name_text">error message</span></td>
 		</td>
 	</tr>
 	   
