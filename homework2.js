@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
 //Review Button - array format sourced from https://www.w3schools.com/js/js_arrays.asp
 document.getElementById("reviewBtn").addEventListener("click", function () {
-    let prefs = [
+    let prefs = []
     if (document.getElementById("prefemail").checked) prefs.push("Email");
     if (document.getElementById("smstext").checked) prefs.push("SMS");
     if (document.getElementById("phonecall").checked) prefs.push("Phone");
