@@ -1,4 +1,12 @@
+/* 
+ Name: Hailey Haiducek
+ File: homework2.js
+ Date Created: 6/24/2026
+ Date Updated: 6/26/2026
+ Purpose: External JavaScript file - Homework 2
+*/
 
+/* https://profjake.w3spaces.com/MIS3371/homework1.html and https://www.w3schools.com/css/default.asp was used as a template. I used ChatGpt to debug and clean up function usage, particularly with the Review Button*/
 document.addEventListener("DOMContentLoaded", function () {
     
     // Health Slider
@@ -146,3 +154,4 @@ document.getElementById("reviewBtn").addEventListener("click", function () {
     });
 
 });
+//End of JavaScript - Homework 2
