@@ -1,4 +1,6 @@
+
 document.addEventListener("DOMContentLoaded", function () {
+    
     // Health Slider
     const slider = document.getElementById("health");
     const display = document.getElementById("rangedisplay");
