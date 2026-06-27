@@ -85,16 +85,15 @@ document.addEventListener("DOMContentLoaded", function () {
 //Review Button - array format sourced from https://www.w3schools.com/js/js_arrays.asp
 document.getElementById("reviewBtn").addEventListener("click", function () {
     let prefs = [
-        prefemail.checked && "Email",
-        smstext.checked && "SMS",
-        phonecall.checked && "Phone",
-        voicemail.checked && "Voicemail",
-        direct.checked && "Direct"
-        ].filter(Boolean);
+    if (document.getElementById("prefemail").checked) prefs.push("Email");
+    if (document.getElementById("smstext").checked) prefs.push("SMS");
+    if (document.getElementById("phonecall").checked) prefs.push("Phone");
+    if (document.getElementById("voicemail").checked) prefs.push("Voicemail");
+    if (document.getElementById("direct").checked) prefs.push("Direct");
 
-        const zip = zip.value.substring(0, 5);
+        let zipDisplay = document.getElementById("zip").value.substring(0,5);
 
-        document.getElementById("review").innerHTML = `
+        let reviewHTML = `
         <h2>PLEASE REVIEW INFORMATION</h2>
 
         <table border="1" style="width:100%; border-collapse: collapse;">
