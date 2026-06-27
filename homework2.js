@@ -1,238 +1,192 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    document.getElementById("reviewBtn").addEventListener("click", function () {
-//Health Slider
-function updateSlider() {
+    // =========================
+    // SLIDER
+    // =========================
     const slider = document.getElementById("health");
     const display = document.getElementById("rangedisplay");
-    display.textContent = slider.value;
-}
 
+    slider.addEventListener("input", function () {
+        display.textContent = this.value;
+    });
 
-//DOB Validation
-function validateDOB() {
-    const dob = document.getElementById("dob");
-    const error = document.getElementById("dob_error");
+    // =========================
+    // VALIDATION FUNCTIONS (MUST BE GLOBAL INSIDE DOM LOAD)
+    // =========================
 
-    const today = new Date();
-    const dobDate = new Date(dob.value);
+    window.validateDOB = function () {
+        const dob = document.getElementById("dob").value;
+        const error = document.getElementById("dob_text");
 
-    const minDate = new Date();
-    minDate.setFullYear(today.getFullYear() - 120);
+        const today = new Date();
+        const date = new Date(dob);
 
-    if (!dob.value) {
-        error.textContent = "DOB is required";
-        return false;
-    }
+        const minDate = new Date();
+        minDate.setFullYear(today.getFullYear() - 120);
 
-    if (dobDate > today) {
-        error.textContent = "ERROR: DOB cannot be in the future";
-        return false;
-    }
+        if (!dob) {
+            error.textContent = "DOB required";
+            return false;
+        }
 
-    if (dobDate < minDate) {
-        error.textContent = "ERROR: DOB cannot be more than 120 years ago";
-        return false;
-    }
+        if (date > today) {
+            error.textContent = "Cannot be in future";
+            return false;
+        }
 
-    error.textContent = "";
-    return true;
-}
+        if (date < minDate) {
+            error.textContent = "Too far in past (120yr limit)";
+            return false;
+        }
 
+        error.textContent = "";
+        return true;
+    };
 
-//Phone Validation
-function validatePhone() {
-    const phone = document.getElementById("phone");
-    const error = document.getElementById("phone_error");
+    window.validatePhone = function () {
+        const phone = document.getElementById("phone").value;
+        const error = document.getElementById("phone_text");
 
-    const pattern = /^\d{3}-\d{3}-\d{4}$/;
+        const pattern = /^\d{3}-\d{3}-\d{4}$/;
 
-    if (!pattern.test(phone.value)) {
-        error.textContent = "ERROR: Invalid phone format";
-        return false;
-    }
+        if (!pattern.test(phone)) {
+            error.textContent = "Invalid phone format";
+            return false;
+        }
 
-    error.textContent = "";
-    return true;
-}
+        error.textContent = "";
+        return true;
+    };
 
+    window.validateEmail = function () {
+        const email = document.getElementById("email").value;
+        const error = document.getElementById("email_text");
 
-//Email Validation
-function validateEmail() {
-    const email = document.getElementById("email");
-    const error = document.getElementById("email_error");
+        const pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
 
-    const pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+        if (!pattern.test(email)) {
+            error.textContent = "Invalid email";
+            return false;
+        }
 
-    if (!pattern.test(email.value)) {
-        error.textContent = "ERROR: Invalid email format";
-        return false;
-    }
+        error.textContent = "";
+        return true;
+    };
 
-    error.textContent = "";
-    return true;
-}
+    window.checkPasswords = function () {
+        const pw = document.getElementById("password").value;
+        const cpw = document.getElementById("confirmpassword").value;
+        const user = document.getElementById("userid").value;
+        const error = document.getElementById("password_error");
 
+        const special = /[!@#$%^&*()_\-+=]/;
 
-//Password Validation
-function checkPasswords() {
-    const password = document.getElementById("password").value;
-    const confirm = document.getElementById("confirmpassword").value;
-    const userid = document.getElementById("userid").value;
-    const error = document.getElementById("password_error");
+        if (pw !== cpw) {
+            error.textContent = "Passwords do not match";
+            return false;
+        }
 
-    const special = /[!@#$%^&*()_\-+=]/;
+        if (pw.includes(user) && user !== "") {
+            error.textContent = "Password cannot contain User ID";
+            return false;
+        }
 
-    if (password !== confirm) {
-        error.textContent = "ERROR: Passwords do not match";
-        return false;
-    }
+        if (!special.test(pw)) {
+            error.textContent = "Missing special character";
+            return false;
+        }
 
-    if (password.includes(userid) && userid !== "") {
-        error.textContent = "ERROR: Password cannot contain User ID";
-        return false;
-    }
+        error.textContent = "";
+        return true;
+    };
 
-    if (!special.test(password)) {
-        error.textContent = "ERROR: Must contain special character";
-        return false;
-    }
+    // =========================
+    // REVIEW BUTTON (ONLY ONE HANDLER)
+    // =========================
+    document.getElementById("reviewBtn").addEventListener("click", function (e) {
+        e.preventDefault();
 
-    error.textContent = "";
-    return true;
-}
+        const pwStatus = checkPasswords() ? "PASS" : "ERROR";
+        const dobStatus = validateDOB() ? "PASS" : "ERROR";
+        const phoneStatus = validatePhone() ? "PASS" : "ERROR";
+        const emailStatus = validateEmail() ? "PASS" : "ERROR";
 
+        // checkboxes FIXED IDS
+        let prefs = [];
+        if (document.getElementById("prefemail").checked) prefs.push("Email");
+        if (document.getElementById("smstext").checked) prefs.push("SMS");
+        if (document.getElementById("phonecall").checked) prefs.push("Phone");
+        if (document.getElementById("voicemail").checked) prefs.push("Voicemail");
+        if (document.getElementById("direct").checked) prefs.push("Direct");
 
-//Review Button
-document.getElementById("reviewBtn").addEventListener("click", function () {
+        const zip = document.getElementById("zip").value;
+        const zipDisplay = zip.length > 5 ? zip.substring(0, 5) : zip;
 
-    const password = document.getElementById("password").value;
-    const confirm = document.getElementById("confirmpassword").value;
-    const userid = document.getElementById("userid").value;
-
-    let passwordStatus = checkPasswords() ? "PASS" : "ERROR";
-
-    // checkbox values
-    let prefs = [];
-    if (document.getElementById("pref_email").checked) prefs.push("Email");
-    if (document.getElementById("pref_sms").checked) prefs.push("SMS");
-    if (document.getElementById("pref_phone").checked) prefs.push("Phone");
-    if (document.getElementById("pref_voicemail").checked) prefs.push("Voicemail");
-
-    // radio values
-    const gender =
-        document.querySelector('input[name="gender"]:checked')?.value || "Not selected";
-
-    // DOB validation
-    const dobValid = validateDOB() ? "PASS" : "ERROR";
-
-    // phone/email validation
-    const phoneValid = validatePhone() ? "PASS" : "ERROR";
-    const emailValid = validateEmail() ? "PASS" : "ERROR";
-
-    // ZIP truncation display
-    let zip = document.getElementById("zip").value;
-    let zipDisplay = zip.length > 5 ? zip.substring(0,5) : zip;
-
-    const reviewHTML = `
-        <h2>PLEASE REVIEW THIS INFORMATION</h2>
+        const reviewHTML = `
+        <h2>PLEASE REVIEW INFORMATION</h2>
 
         <table border="1" style="width:100%; border-collapse: collapse;">
 
         <tr>
             <td><b>Name</b></td>
-            <td>${document.getElementById("firstname").value}
-                ${document.getElementById("middleinit").value}
-                ${document.getElementById("lastname").value}
+            <td>
+                ${firstname.value} ${middleinit.value} ${lastname.value}
             </td>
             <td>PASS</td>
         </tr>
 
         <tr>
             <td><b>DOB</b></td>
-            <td>${document.getElementById("dob").value}</td>
-            <td>${dobValid}</td>
+            <td>${dob.value}</td>
+            <td>${dobStatus}</td>
         </tr>
 
         <tr>
             <td><b>Email</b></td>
-            <td>${document.getElementById("email").value}</td>
-            <td>${emailValid}</td>
+            <td>${email.value}</td>
+            <td>${emailStatus}</td>
         </tr>
 
         <tr>
             <td><b>Phone</b></td>
-            <td>${document.getElementById("phone").value}</td>
-            <td>${phoneValid}</td>
+            <td>${phone.value}</td>
+            <td>${phoneStatus}</td>
         </tr>
 
         <tr>
-            <td><b>Address</b></td>
-            <td>
-                ${document.getElementById("addr1").value}<br>
-                ${document.getElementById("addr2").value}<br>
-                ${document.getElementById("city").value},
-                ${document.getElementById("state").value}
-                ${zipDisplay}
-            </td>
+            <td><b>State</b></td>
+            <td>${state.value}</td>
             <td>PASS</td>
         </tr>
 
         <tr>
-            <td><b>Gender</b></td>
-            <td>${gender}</td>
+            <td><b>Zip</b></td>
+            <td>${zipDisplay}</td>
             <td>PASS</td>
         </tr>
 
         <tr>
-            <td><b>Contact Preferences</b></td>
+            <td><b>Health</b></td>
+            <td>${health.value}</td>
+            <td>PASS</td>
+        </tr>
+
+        <tr>
+            <td><b>Preferences</b></td>
             <td>${prefs.join(", ")}</td>
             <td>PASS</td>
         </tr>
 
         <tr>
-            <td><b>Health Rating</b></td>
-            <td>${document.getElementById("health").value}</td>
-            <td>PASS</td>
-        </tr>
-
-        <tr>
-            <td><b>User ID</b></td>
-            <td>${userid}</td>
-            <td>PASS</td>
-        </tr>
-
-        <tr>
             <td><b>Password</b></td>
-            <td>********</td>
-            <td>${passwordStatus}</td>
-        </tr>
-
-        <tr>
-            <td><b>Symptoms</b></td>
-            <td>${document.getElementById("symptoms").value}</td>
-            <td>PASS</td>
+            <td>******</td>
+            <td>${pwStatus}</td>
         </tr>
 
         </table>
-    `;
+        `;
 
-    document.getElementById("review").innerHTML = reviewHTML;
-});
-
-
-// Reset Cleanup
-document.querySelector("form").addEventListener("reset", function () {
-
-    document.getElementById("review").innerHTML = "";
-
-    document.getElementById("rangedisplay").textContent = "5";
-
-    document.getElementById("password_error").textContent = "";
-    document.getElementById("phone_error").textContent = "";
-    document.getElementById("email_error").textContent = "";
-    document.getElementById("dob_error").textContent = "";
-    
+        document.getElementById("review").innerHTML = reviewHTML;
     });
 
 });
